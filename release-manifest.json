@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "content_version": "requirements-v1",
+  "status": "uploaded_private_license_audit_pending",
+  "github_repo": "printmarks0104-beep/Karaokey-Donwloads-",
+  "release_tag": "requirements-v1",
+  "release_asset_id": 676503924,
+  "file_name": "VideoKey.zip",
+  "size_bytes": 915280957,
+  "sha256": "90cfbf2201c4f5e1b321748b813c5c5f8eaa1619bddf6be77327b4419974d43c",
+  "source_visibility": "private",
+  "requires_authenticated_gateway": true,
+  "automatic_extraction_approved": false,
+  "note": "A checksum is not a license. Do not make release public or auto-install unreviewed ZIP contents."
+}
