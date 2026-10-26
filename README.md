@@ -1,3 +1,25 @@
+# KaraOKEy Downloads — current assets
+
+Developer: **MJ Ranuda**. Current PRIVATE GitHub Release: **requirements-v1**.
+
+**The old VideoKey.zip was replaced. The Release currently contains:**
+- KaraOKEY_songs.vkpack — 496,506,044 bytes, SHA-256 313cefc83ec4463c922e213c5edb02cd9f39a68964b526ce17017b55683b14e6
+- Dream.SAM2634.ver.2.1.sf2 — 141,454,402 bytes, SHA-256 795e72be5fd0ac531adb47b2b5cd6b482f2410e3c7e12ea5482c7e6038c97795
+- mega.sf2 — 98,574,116 bytes, SHA-256 d63de87525cce532591d91c394fdd1f356aeb970491fb3472aa3a28a266825fd
+- DRONE_SHOOT.mp4 — 213,832,090 bytes, SHA-256 83f87dec7fd89c668edf6917f8763a5db0a26b7c55f1181cf3f538bf31e515c7
+
+Total 950,366,652 bytes. Verified exact release metadata is in [release-manifest.json](release-manifest.json).
+
+The songs VKPack format is not yet inspected and is **not automatically playable**. SoundFonts require a MIDI engine that can load .sf2, and app-private background video needs a safe media bridge. All four files are stored privately pending format and distribution-rights review.
+
+For the song pack, use the [local format inspector](scripts/Inspect-KaraOKEYVKPack.ps1) and share its JSON report. It performs metadata-only inspection and does not extract the actual songs.
+
+Android devices cannot access these PRIVATE Release assets by anonymous GitHub URLs. Only an authorized HTTPS streaming download gateway with byte-range support may be configured. **Never bundle a GitHub token inside the APK.**
+
+---
+
+## Earlier setup notes (obsolete source archive)
+
 # KaraOKEy Content Downloads
 
 **Developer:** MJ Ranuda
