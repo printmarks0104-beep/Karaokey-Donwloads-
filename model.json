@@ -1,0 +1,21 @@
+{
+  "id": "spleeter-2stems-v1-mobile",
+  "bytes": 78607588,
+  "sha256": "fafa348b2e5cb96ac63caf6411642772d8a59fed0662c7bbc685d2918b497ea6",
+  "sampleRate": 44100,
+  "fft": 4096,
+  "hop": 1024,
+  "frames": 512,
+  "bins": 1024,
+  "input": [
+    1,
+    512,
+    1024,
+    2
+  ],
+  "output": "vocal ratio mask",
+  "source": "https://github.com/deezer/spleeter/releases/tag/v1.4.0",
+  "sourceArchiveSha256": "f3a90b39dd2874269e8b05a48a86745df897b848c61f3958efc80a39152bd692",
+  "partBytes": 8388608,
+  "parts": 10
+}
