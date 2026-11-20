@@ -1,0 +1,37 @@
+name: Verify original VKPK release integrity
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/original-vkpk-integrity.yml'
+      - 'scripts/verify_original_vkpk.py'
+      - 'tests/test_verify_original_vkpk.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-vkpk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Synthetic parser checks
+        run: python3 -m unittest discover -s tests -p 'test_verify_original_vkpk.py' -v
+      - name: Fetch original private release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/vkpk" "$RUNNER_TEMP/vkpk-report"
+          gh release download requirements-v1 -R printmarks0104-beep/Karaokey-Donwloads- --pattern KaraOKEY_songs.vkpack --dir "$RUNNER_TEMP/vkpk" --clobber
+          test -s "$RUNNER_TEMP/vkpk/KaraOKEY_songs.vkpack"
+      - name: Verify entire archive and header
+        run: |
+          python3 scripts/verify_original_vkpk.py --pack "$RUNNER_TEMP/vkpk/KaraOKEY_songs.vkpack" --report "$RUNNER_TEMP/vkpk-report/report.json"
+          echo "## Original 47,997-song VKPK file integrity verified. This DOES NOT verify decoded MIDI records or device playback." >> "$GITHUB_STEP_SUMMARY"
+      - name: Retain small metadata report only
+        uses: actions/upload-artifact@v4
+        with:
+          name: vkpk-original-integrity-metadata
+          path: ${{ runner.temp }}/vkpk-report/report.json
+          retention-days: 7
+          if-no-files-found: error
