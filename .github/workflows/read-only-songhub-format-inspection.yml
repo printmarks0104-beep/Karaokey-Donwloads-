@@ -1,0 +1,47 @@
+name: Read-only SongHub file format inspection
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/read-only-songhub-format-inspection.yml'
+      - 'scripts/inspect_songhub_files.py'
+      - 'tests/test_inspect_songhub_files.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect-private-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Synthetic scanner tests
+        run: python3 -m unittest discover -s tests -p 'test_inspect_songhub_files.py' -v
+      - name: Download two private release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/shub-input" "$RUNNER_TEMP/shub-report"
+          gh release download requirements-v1 \
+            -R printmarks0104-beep/Karaokey-Donwloads- \
+            --pattern shubidx --pattern shubblob --dir "$RUNNER_TEMP/shub-input" --clobber
+          test -s "$RUNNER_TEMP/shub-input/shubidx"
+          test -s "$RUNNER_TEMP/shub-input/shubblob"
+      - name: Inspect file headers and signatures without exporting songs
+        run: |
+          set -euo pipefail
+          python3 scripts/inspect_songhub_files.py \
+            --index "$RUNNER_TEMP/shub-input/shubidx" \
+            --blob "$RUNNER_TEMP/shub-input/shubblob" \
+            --output-dir "$RUNNER_TEMP/shub-report"
+          cat "$RUNNER_TEMP/shub-report/songhub-inspection.md" >> "$GITHUB_STEP_SUMMARY"
+      - name: Save metadata report only
+        uses: actions/upload-artifact@v4
+        with:
+          name: songhub-format-metadata-only
+          path: |
+            ${{ runner.temp }}/shub-report/songhub-inspection.json
+            ${{ runner.temp }}/shub-report/songhub-inspection.md
+          retention-days: 7
+          if-no-files-found: error
